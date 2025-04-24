@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Empleado {
+  id          Int     @id @default(autoincrement())
+  Empleado    String?
+  Correo      String?
+  Contraseña String?
+}
+
+model PcData {
+  id               Int       @id @default(autoincrement())
+  ip               String? // Dirección IP local del equipo
+  CPU              String? // Información de la CPU
+  RAM              String? // Información sobre la memoria RAM
+  NombreEquipo     String? // Nombre del equipo
+  Usuario          String? // Nombre del usuario
+  SistemaOperativo String? // Sistema operativo
+  versionExcel     String? // Versión de Excel (si aplica)
+  rutaApp          String? // Ruta de la aplicación (por ejemplo, la ruta de Excel)
+  fechaHora        DateTime? // Fecha y hora actuales
+  memoriaLibre     String? // Memoria libre del sistema (si es accesible)
+  espacioDisco     String? // Espacio libre en el disco
+  direccionMAC     String? // Dirección MAC de la tarjeta de red
+  puertoAbierto    String? // Información sobre puertos abiertos (si aplica)
+  estadoRed        String? // Estado de la conexión de red
+  fechaInicioApp   DateTime? // Fecha de inicio de la aplicación
+}
