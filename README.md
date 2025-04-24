@@ -8,6 +8,8 @@ Aqui explicare las partes de la api
 
 [Ver modelos de Prisma](https://github.com/JeissonBenitez213/macro_api_nestjs/blob/main/prisma/schema.prisma)
 
+#### Modelo de los datos del pc
+
 | Parámetro          | Tipo        | Descripción                                                          |
 | :----------------- | :---------- | :------------------------------------------------------------------- |
 | `id`               | `int`       | Identificador único.                                                 |
