@@ -175,11 +175,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://data_3co8_user:2iCebXqwFrXrRBcMpwrdvM93fdGLYEtZ@dpg-d0592cre5dus73cmdlp0-a.oregon-postgres.render.com/data_3co8"
+        "value": null
       }
     }
   },
