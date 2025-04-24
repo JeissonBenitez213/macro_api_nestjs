@@ -1,99 +1,231 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# API MACROS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Aqui explicare las partes de la api
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## API Reference
 
-## Description
+#### Modelo de los datos de prisma
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Ver modelos de Prisma](https://github.com/JeissonBenitez213/macro_api_nestjs/blob/main/prisma/schema.prisma)
 
-## Project setup
+| Parámetro          | Tipo        | Descripción                                                          |
+| :----------------- | :---------- | :------------------------------------------------------------------- |
+| `id`               | `int`       | Identificador único.                                                 |
+| `ip`               | `string`    | Dirección IP local del equipo.                                       |
+| `CPU`              | `String?`   | Información de la CPU.                                               |
+| `RAM`              | `String?`   | Información sobre la memoria RAM.                                    |
+| `NombreEquipo`     | `String?`   | Nombre del equipo.                                                   |
+| `Usuario`          | `String?`   | Nombre del usuario.                                                  |
+| `SistemaOperativo` | `String?`   | Sistema operativo del equipo.                                        |
+| `versionExcel`     | `String?`   | Versión de Excel instalada (si aplica).                              |
+| `rutaApp`          | `String?`   | Ruta de la aplicación (ejemplo: ruta de Excel).                      |
+| `fechaHora`        | `DateTime?` | Fecha y hora actuales del sistema.                                   |
+| `memoriaLibre`     | `String?`   | Memoria libre disponible en el sistema (si es accesible).            |
+| `espacioDisco`     | `String?`   | Espacio libre en el disco duro.                                      |
+| `direccionMAC`     | `String?`   | Dirección MAC de la tarjeta de red.                                  |
+| `puertoAbierto`    | `String?`   | Información sobre puertos abiertos (si aplica).                      |
+| `estadoRed`        | `String?`   | Estado de la conexión de red (ejemplo: "Conectado", "Desconectado"). |
+| `fechaInicioApp`   | `DateTime?` | Fecha y hora en que se inició la aplicación.                         |
 
-```bash
-$ npm install
+#### Modelo de empleados
+
+| Parámetro    | Tipo      | Descripción                                 |
+| :----------- | :-------- | :------------------------------------------ |
+| `id`         | `Int`     | Identificador único (autoincremental).      |
+| `Empleado`   | `String?` | Nombre del empleado (opcional).             |
+| `Correo`     | `String?` | Correo electrónico del empleado (opcional). |
+| `Contraseña` | `String?` | Contraseña del empleado (opcional).         |
+
+## Servicios de la ruta de empleados
+
+[Ver código](https://github.com/JeissonBenitez213/macro_api_nestjs/blob/main/src/empleados/empleados.service.ts)
+
+```ts
+import { Injectable } from '@nestjs/common'; //importacion de las dependencias necesarias
+import { prisma } from 'src/libs/prisma'; //importacion de las dependencias necesarias
+
+@Injectable()
+export class EmpleadosService {
+  getEmpleados() {
+    return prisma.empleado.findMany(); //obtencion de todos los empleados
+  }
+
+  postEmpleados(empleado: any) {
+    return prisma.empleado.create({
+      //crear un empleado
+      data: empleado,
+    });
+  }
+}
 ```
 
-## Compile and run the project
+## Servicios de la ruta de pc-data
 
-```bash
-# development
-$ npm run start
+[Ver código](https://github.com/JeissonBenitez213/macro_api_nestjs/blob/main/src/pc-data/pc-data.service.ts)
 
-# watch mode
-$ npm run start:dev
+```ts
+import { Injectable } from '@nestjs/common'; //importado de dependencias
+import { prisma } from 'src/libs/prisma'; //importado de dependencias
+const si = require('systeminformation'); //importado de dependencias
 
-# production mode
-$ npm run start:prod
+@Injectable()
+export class PcDataService {
+  async getPcData() {
+    return prisma.pcData.findMany();
+  }
+
+  async postPcData(pcData: any) {
+    const ip = await fetch('https://api.ipify.org?format=json') //consumo de api para la obtencion de la ip del pc
+      .then((res) => res.json())
+      .then((data) => data.ip)
+      .catch(() => null);
+
+    const memoriaLibre = await si //obtencion de datos de memoria
+      .mem()
+      .then((data) => (data.available / 1024 / 1024).toFixed(3) + 'MB')
+      .catch(() => null);
+
+    const RAM = await si //obtencion de la ram del equipo
+      .mem()
+      .then((data) => (data.total / 1024 / 1024 / 1024).toFixed(2) + ' GB')
+      .catch(() => null);
+
+    const CPU = await si //obtencion de la CPU
+      .cpu()
+      .then((data) => `${data.manufacturer} ${data.brand} ${data.speed}GHz`)
+      .catch(() => null);
+
+    const direccionMAC = await si //obtencion de la direccion MAC (puertos publicos)
+      .networkInterfaces()
+      .then((data) => data?.[0]?.mac || null)
+      .catch(() => null);
+
+    const espacioDisco = await si //obtencion del espacio en disco
+      .fsSize()
+      .then(
+        (data) => (data?.[0]?.available / 1024 / 1024 / 1024).toFixed(2) + 'GB',
+      )
+      .catch(() => null);
+
+    const estadoRed = await si //obtencion de los datos d ered
+      .networkStats()
+      .then((data) => data?.[0]?.operstate || null)
+      .catch(() => null);
+
+    const puertoAbierto = await si //obtencion si existe algun puerto abierto en el pc
+      .services('node,nginx,mysql')
+      .then((data) => {
+        const serviciosActivos = data.filter((s) => s.running);
+        if (serviciosActivos.length > 0) {
+          return serviciosActivos.map((s) => `${s.name}:${s.port}`).join(', ');
+        }
+        return null;
+      });
+
+    const fechaInicioApp = pcData.fechaInicioApp //obtencion de la fecha de inicio de la app
+      ? new Date(pcData.fechaInicioApp)
+      : new Date();
+
+    return prisma.pcData.create({
+      data: {
+        ...pcData,
+        ip,
+        fechaHora: new Date(fechaHora),
+        memoriaLibre,
+        direccionMAC,
+        espacioDisco,
+        estadoRed,
+        puertoAbierto,
+        RAM,
+        CPU,
+        fechaInicioApp,
+      },
+    });
+  }
+}
 ```
 
-## Run tests
+## configuración de Prisma
 
-```bash
-# unit tests
-$ npm run test
+[Ver Código](https://github.com/Sieghart205/nestjs/blob/main/libs/prisma.ts)
 
-# e2e tests
-$ npm run test:e2e
+```ts
+import { PrismaClient } from 'generated/prisma'; //importamos el cliente de prisma
 
-# test coverage
-$ npm run test:cov
+export const prisma = new PrismaClient(); //uso de la funcion y su exportación
 ```
 
-## Deployment
+# Explicacion de macros de Excel
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```vba
+Private Sub CommandButton1_Click() ' ejecutar al dar click en el boton de enviar
+    Rows(3).Insert ' insertar celda en la tabla
+    Range("B3").Value = Empleado.Value ' capturar de datos
+    Range("C3").Value = Correo.Value ' capturar de datos
+    Range("D3").Value = Contraseña.Value ' capturar de datos
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+    Set http = CreateObject("MSXML2.XMLHTTP") ' crear objeto http para peticiones a la api
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+    jsondata = "{""Empleado"":""" & Empleado.Value & """, " & _
+            """Correo"":""" & Correo.Value & """, " & _
+            """Contraseña"":""" & Contraseña.Value & """}"
+    Rem crear Json para enviar a la api
+
+    Url = "https://macro-api-nestjs.onrender.com/empleados" ' Url de la api
+
+    http.Open "POST", Url, False ' abrir una peticion a la api
+    http.setRequestHeader "Content-Type", "application/json" ' crear encabezados que deben usarse
+    http.Send jsondata ' envio de los datos json
+
+    Empleado.Value = "" ' limpiar datos del formulario
+    Correo.Value = "" ' limpiar datos del formulario
+    Contraseña.Value = "" ' limpiar datos del formulario
+
+
+End Sub
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+```vba
+Sub MostrarFormulario()
+    Application.OnTime Now + TimeValue("00:00:01"), "EnviarDatos" ' esperar un instante para que aparezca el formulario
+    Formulario.Show ' abrir formulario
+End Sub
 
-## Resources
+Sub EnviarDatos() ' función de la api
+    Dim nombreEquipo As String ' definir variables
+    Dim usuario As String ' definir variables
+    Dim sistemaOperativo As String ' definir variables
+    Dim rutaExcel As String ' definir variables
+    Dim versionExcel As String ' definir variables
+    Dim fechaActual As String ' definir variables
 
-Check out a few resources that may come in handy when working with NestJS:
+    nombreEquipo = Environ("COMPUTERNAME") ' llamar al nombre del equipo
+    usuario = Environ("USERNAME") ' obtener sistema operativo
+    sistemaOperativo = CreateObject("WScript.Shell").RegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProductName") ' obtener sistema operativo
+    rutaExcel = Application.Path ' ruta de la aplicación
+    rutaExcel = Replace(rutaExcel, "\", "\\") ' reemplazar las rutas para que la api la reciba correctamente
+    versionExcel = Application.Version ' versión de la app
+    fechaActual = Format(Now, "yyyy-mm-dd\THH:MM:SS") ' crear fecha actual
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+    Set http = CreateObject("MSXML2.XMLHTTP") ' crear objeto http
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+    jsondata = "{""NombreEquipo"":""" & nombreEquipo & """, " & _
+               """Usuario"":""" & usuario & """, " & _
+               """SistemaOperativo"":""" & sistemaOperativo & """, " & _
+               """rutaApp"":""" & rutaExcel & """, " & _
+               """versionExcel"":""" & versionExcel & """, " & _
+               """fechaHora"":""" & fechaActual & """}"
+    Rem crear json
 
-## Stay in touch
+    Url = "https://macro-api-nestjs.onrender.com/pc-data/" ' definir url
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    http.Open "POST", Url, False ' abrir peticion post
+    http.setRequestHeader "Content-Type", "application/json" ' crear encabezados
+    http.Send jsondata ' enviar los datos
+End Sub
+```
 
-## License
+## Autores
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-# macro_api
+- Jeisson Benitez

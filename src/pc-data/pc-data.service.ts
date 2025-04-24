@@ -14,8 +14,6 @@ export class PcDataService {
       .then((data) => data.ip)
       .catch(() => null);
 
-    const fechaHora = pcData.fechaHora || new Date();
-
     const memoriaLibre = await si
       .mem()
       .then((data) => (data.available / 1024 / 1024).toFixed(3) + 'MB')
@@ -66,7 +64,7 @@ export class PcDataService {
       data: {
         ...pcData,
         ip,
-        fechaHora: new Date(fechaHora),
+        fechaHora: new Date(fechaInicioApp),
         memoriaLibre,
         direccionMAC,
         espacioDisco,
