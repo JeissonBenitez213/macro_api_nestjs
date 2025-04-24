@@ -109,7 +109,7 @@ export class PcDataService {
       )
       .catch(() => null);
 
-    const estadoRed = await si //obtencion de los datos d ered
+    const estadoRed = await si //obtencion de los datos de red
       .networkStats()
       .then((data) => data?.[0]?.operstate || null)
       .catch(() => null);
