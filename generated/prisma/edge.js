@@ -178,7 +178,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgres://neondb_owner:npg_NuOhRTzg1F8W@ep-sparkling-star-a56yr07r-pooler.us-east-2.aws.neon.tech/neondb?connect_timeout=15&sslmode=require"
+        "value": "postgresql://data_3co8_user:2iCebXqwFrXrRBcMpwrdvM93fdGLYEtZ@dpg-d0592cre5dus73cmdlp0-a.oregon-postgres.render.com/data_3co8"
       }
     }
   },
